@@ -9,7 +9,7 @@ const App = () => {
   const [isNotAuthorized, setIsNotAuthorized] = useState(true);
 
   const toAuthorize = () => {
-    setIsNotAuthorized(false);
+    setIsNotAuthorized(!isNotAuthorized);
   };
 
   if (isNotAuthorized) {
@@ -19,7 +19,13 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={{
+            toAuthorize: toAuthorize,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

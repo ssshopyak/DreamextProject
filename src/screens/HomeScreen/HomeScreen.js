@@ -1,15 +1,11 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-export const HomeScreen = ({navigation}) => {
+export const HomeScreen = ({route}) => {
+  const {toAuthorize} = route.params;
   return (
     <View>
-      <Text
-        onPress={() => {
-          navigation.navigate('Login');
-        }}>
-        HomeScreen
-      </Text>
+      <Text onPress={toAuthorize}>HomeScreen</Text>
     </View>
   );
 };
