@@ -12,20 +12,74 @@ import {styles} from './style';
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../Colors';
+import Snackbar from 'react-native-snackbar';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});
   const [postsLoading, setPostsLoading] = useState(true);
   const [comments, setComments] = useState({});
+  const [commentsLoading, setCommentsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
   const {toAuthorize} = route.params;
 
+  const toShowFetchPostError = () => {
+    Snackbar.show({
+      text: 'An error occurred',
+      duration: Snackbar.LENGTH_INDEFINITE,
+      action: {
+        text: 'Repeat the request',
+        textColor: 'green',
+        onPress: () => {
+          fetchPosts();
+        },
+      },
+    });
+  };
+
+  const toShowFetchCommentsErrorById = id => {
+    console.log(4);
+    Snackbar.show({
+      text: 'An error occurred',
+      duration: Snackbar.LENGTH_INDEFINITE,
+      action: {
+        text: 'Repeat the request',
+        textColor: 'green',
+        onPress: () => {
+          fetchCommentsById(id);
+        },
+      },
+    });
+  };
+
+  const fetchPosts = () => {
+    setPostsLoading(true);
+    axios
+      .get('https://jsonplaceholder.typicode.com/posts')
+      .then(res => {
+        setPosts(res.data);
+      })
+      .catch(e => {
+        toShowFetchPostError();
+      })
+      .finally(() => {
+        setPostsLoading(false);
+      });
+  };
+
   const fetchCommentsById = id => {
+    setCommentsLoading(true);
     axios
       .get('https://jsonplaceholder.typicode.com/comments?postId=' + id)
       .then(res => {
         setComments(res.data);
+      })
+      .catch(() => {
+        setModalVisible(false);
+        toShowFetchCommentsErrorById(id);
+      })
+      .finally(() => {
+        setCommentsLoading(false);
       });
   };
 
@@ -59,14 +113,7 @@ export const HomeScreen = ({route}) => {
   );
 
   useEffect(() => {
-    axios
-      .get('https://jsonplaceholder.typicode.com/posts')
-      .then(res => {
-        setPosts(res.data);
-      })
-      .finally(() => {
-        setPostsLoading(false);
-      });
+    fetchPosts();
   }, []);
 
   return (
@@ -109,14 +156,18 @@ export const HomeScreen = ({route}) => {
           <LinearGradient
             colors={Colors.BodyLinearGradient}
             style={styles.modalView}>
-            <FlatList
-              ListFooterComponent={<View />}
-              ListFooterComponentStyle={{height: 100}}
-              showsVerticalScrollIndicator={false}
-              data={comments}
-              renderItem={renderCommentItem}
-              keyExtractor={item => item.id}
-            />
+            {commentsLoading ? (
+              <ActivityIndicator size="large" color="#FFF" />
+            ) : (
+              <FlatList
+                ListFooterComponent={<View />}
+                ListFooterComponentStyle={{height: 100}}
+                showsVerticalScrollIndicator={false}
+                data={comments}
+                renderItem={renderCommentItem}
+                keyExtractor={item => item.id}
+              />
+            )}
           </LinearGradient>
         </View>
       </Modal>
