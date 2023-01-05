@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, TextInput} from 'react-native';
+import {View, TextInput, Text} from 'react-native';
 import {styles} from './style';
 import {Button} from '../../components/button';
 import {authData} from './data';
@@ -43,6 +43,8 @@ export const LoginScreen = ({toAuthorize}) => {
   useEffect(() => {
     if (email.length > 0 && password.length > 0) {
       setIsNotEmptyAuthData(true);
+    } else {
+      setIsWrongAuthData(false);
     }
     if (netInfo.isConnected) {
       setisNotInterner(false);
@@ -56,6 +58,7 @@ export const LoginScreen = ({toAuthorize}) => {
         style={styles.container}
         colors={Colors.BodyLinearGradient}>
         <View>
+          <Text style={styles.logo}>SHEVA</Text>
           <TextInput
             style={isWrongAuthData ? styles.wrongInput : styles.input}
             onChangeText={setEmail}

@@ -106,15 +106,10 @@ export const HomeScreen = ({route}) => {
   );
 
   const renderCommentItem = ({item}) => (
-    <TouchableOpacity
-      onPress={() => {
-        renderModal(item.id);
-      }}>
-      <View style={styles.postsContainer}>
-        <Text style={styles.TitleText}>{item.name}</Text>
-        <Text style={styles.BodyText}>{item.body}</Text>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.postsContainer}>
+      <Text style={styles.TitleText}>{item.name}</Text>
+      <Text style={styles.BodyText}>{item.body}</Text>
+    </View>
   );
 
   useEffect(() => {

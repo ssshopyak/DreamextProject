@@ -7,7 +7,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    marginBottom: 10,
+    fontFamily: 'Bold',
+    fontSize: 36,
+    color: '#fff',
+    textAlign: 'center',
   },
   input: {
     width: 300,
