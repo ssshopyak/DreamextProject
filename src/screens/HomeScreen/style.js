@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(232, 240, 255)',
   },
   header: {
     position: 'absolute',
@@ -15,7 +14,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
     width: '100%',
-    backgroundColor: 'rgb(130,176,255)',
+    backgroundColor: '#C79AFF',
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
   },
@@ -27,10 +26,13 @@ export const styles = StyleSheet.create({
   logo: {
     marginHorizontal: 10,
     fontSize: 24,
-    color: 'rgba(0,0,0,0.7)',
+    color: '#FFF',
+    fontFamily: 'Bold',
+    fontWeight: 'Bold',
   },
   postsContainer: {
-    width: '100%',
+    alignSelf: 'center',
+    width: '95%',
     backgroundColor: 'rgb(181, 208, 255)',
     borderRadius: 25,
     padding: 10,

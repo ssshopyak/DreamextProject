@@ -7,12 +7,15 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {styles} from './style';
 import Modal from 'react-native-modal';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});
+  const [postsLoading, setPostsLoading] = useState(true);
   const [comments, setComments] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -37,8 +40,16 @@ export const HomeScreen = ({route}) => {
         renderModal(item.id);
       }}>
       <View style={styles.postsContainer}>
-        <Text style={{padding: 5}}>title: {item.title}</Text>
-        <Text style={{padding: 5}}>body: {item.body}</Text>
+        <Text
+          style={{
+            padding: 5,
+            fontFamily: 'Regular',
+            fontSize: 18,
+            fontWeight: 'bold',
+          }}>
+          {item.title}
+        </Text>
+        <Text style={{padding: 5, fontFamily: 'Light'}}>body: {item.body}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -49,16 +60,25 @@ export const HomeScreen = ({route}) => {
         renderModal(item.id);
       }}>
       <View style={styles.postsContainer}>
-        <Text style={{padding: 5}}>name: {item.name}</Text>
-        <Text style={{padding: 5}}>body: {item.body}</Text>
+        <Text style={{padding: 5, fontFamily: 'Regular'}}>
+          name: {item.name}
+        </Text>
+        <Text style={{padding: 5, fontFamily: 'Regular'}}>
+          body: {item.body}
+        </Text>
       </View>
     </TouchableOpacity>
   );
 
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {
-      setPosts(res.data);
-    });
+    axios
+      .get('https://jsonplaceholder.typicode.com/posts')
+      .then(res => {
+        setPosts(res.data);
+      })
+      .finally(() => {
+        setPostsLoading(false);
+      });
   }, []);
 
   return (
@@ -72,23 +92,35 @@ export const HomeScreen = ({route}) => {
           />
         </TouchableOpacity>
       </View>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{marginTop: 70}}
-        data={posts}
-        renderItem={renderPostItem}
-        keyExtractor={item => item.id}
-      />
+      {postsLoading ? (
+        <ActivityIndicator
+          size="large"
+          color="rgb(130,176,255)"
+          style={{zIndex: 1, marginTop: 140}}
+        />
+      ) : (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{marginTop: 70}}
+          data={posts}
+          renderItem={renderPostItem}
+          keyExtractor={item => item.id}
+        />
+      )}
       <Modal
         animationType="fade"
         transparent={true}
-        visible={modalVisible}
+        isVisible={modalVisible}
+        onBackdropPress={() => {
+          setModalVisible(!modalVisible);
+        }}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={comments}
               renderItem={renderCommentItem}
               keyExtractor={item => item.id}
