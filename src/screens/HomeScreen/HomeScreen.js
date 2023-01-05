@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -13,6 +14,8 @@ import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../Colors';
 import Snackbar from 'react-native-snackbar';
+import {useNetInfo} from '@react-native-community/netinfo';
+import {NetInfoBage} from '../../components/netInfoBage';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});
@@ -20,8 +23,10 @@ export const HomeScreen = ({route}) => {
   const [comments, setComments] = useState({});
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isNotInternet, setisNotInterner] = useState(true);
 
   const {toAuthorize} = route.params;
+  const netInfo = useNetInfo();
 
   const toShowFetchPostError = () => {
     Snackbar.show({
@@ -114,13 +119,17 @@ export const HomeScreen = ({route}) => {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+    if (netInfo.isConnected) {
+      setisNotInterner(false);
+    }
+  }, [netInfo.isConnected]);
 
   return (
     <LinearGradient colors={Colors.BodyLinearGradient} style={styles.container}>
+      {isNotInternet && <NetInfoBage />}
       <LinearGradient
         colors={Colors.HeaderLinearGradient}
-        style={styles.header}>
+        style={[styles.header, isNotInternet && {top: 25}]}>
         <Text style={styles.logo}>SHEVA</Text>
         <TouchableOpacity onPress={toAuthorize}>
           <Image

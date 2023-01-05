@@ -17,10 +17,10 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.1)',
     borderColor: 'rgba(0,0,0,0.3)',
     marginTop: 24,
-    color: 'rgba(0,0,0,0.7)',
+    color: '#fff',
   },
   wrongInput: {
-    color: 'rgba(0,0,0,0.7)',
+    color: 'rgba(227, 50, 50,0.5)',
     width: 300,
     height: 38,
     borderRadius: 10,
