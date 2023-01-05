@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
-
+import {Colors} from '../Colors';
 export const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: '100%',
   },
   header: {
     position: 'absolute',
@@ -14,7 +15,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
     width: '100%',
-    backgroundColor: '#C79AFF',
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
   },
@@ -33,12 +33,24 @@ export const styles = StyleSheet.create({
   postsContainer: {
     alignSelf: 'center',
     width: '95%',
-    backgroundColor: 'rgb(181, 208, 255)',
+    backgroundColor: '#fff',
     borderRadius: 25,
     padding: 10,
     marginTop: 5,
   },
-  centeredView: {
+  TitleText: {
+    padding: 5,
+    fontFamily: 'Regular',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.TitleText,
+  },
+  BodyText: {
+    padding: 5,
+    fontFamily: 'Light',
+    color: Colors.BodyText,
+  },
+  centeredViewForModal: {
     maxHeight: '100%',
     flex: 1,
     justifyContent: 'center',
@@ -46,9 +58,12 @@ export const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
+    borderRadius: 25,
+    maxHeight: '50%',
     margin: 10,
     backgroundColor: 'white',
-    padding: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 1,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {

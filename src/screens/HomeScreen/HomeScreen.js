@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   Image,
@@ -12,6 +11,7 @@ import {
 import {styles} from './style';
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
+import {Colors} from '../Colors';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});
@@ -40,16 +40,8 @@ export const HomeScreen = ({route}) => {
         renderModal(item.id);
       }}>
       <View style={styles.postsContainer}>
-        <Text
-          style={{
-            padding: 5,
-            fontFamily: 'Regular',
-            fontSize: 18,
-            fontWeight: 'bold',
-          }}>
-          {item.title}
-        </Text>
-        <Text style={{padding: 5, fontFamily: 'Light'}}>body: {item.body}</Text>
+        <Text style={styles.TitleText}>{item.title}</Text>
+        <Text style={styles.BodyText}>{item.body}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -60,12 +52,8 @@ export const HomeScreen = ({route}) => {
         renderModal(item.id);
       }}>
       <View style={styles.postsContainer}>
-        <Text style={{padding: 5, fontFamily: 'Regular'}}>
-          name: {item.name}
-        </Text>
-        <Text style={{padding: 5, fontFamily: 'Regular'}}>
-          body: {item.body}
-        </Text>
+        <Text style={styles.TitleText}>{item.name}</Text>
+        <Text style={styles.BodyText}>{item.body}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -82,8 +70,10 @@ export const HomeScreen = ({route}) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <LinearGradient colors={Colors.BodyLinearGradient} style={styles.container}>
+      <LinearGradient
+        colors={Colors.HeaderLinearGradient}
+        style={styles.header}>
         <Text style={styles.logo}>SHEVA</Text>
         <TouchableOpacity onPress={toAuthorize}>
           <Image
@@ -91,17 +81,15 @@ export const HomeScreen = ({route}) => {
             source={require('../../icons/logout.png')}
           />
         </TouchableOpacity>
-      </View>
+      </LinearGradient>
       {postsLoading ? (
-        <ActivityIndicator
-          size="large"
-          color="rgb(130,176,255)"
-          style={{zIndex: 1, marginTop: 140}}
-        />
+        <ActivityIndicator size="large" color="#FFF" />
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{marginTop: 70}}
+          ListFooterComponent={<View />}
+          ListFooterComponentStyle={{height: 600}}
           data={posts}
           renderItem={renderPostItem}
           keyExtractor={item => item.id}
@@ -117,17 +105,21 @@ export const HomeScreen = ({route}) => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={styles.centeredViewForModal}>
+          <LinearGradient
+            colors={Colors.BodyLinearGradient}
+            style={styles.modalView}>
             <FlatList
+              ListFooterComponent={<View />}
+              ListFooterComponentStyle={{height: 100}}
               showsVerticalScrollIndicator={false}
               data={comments}
               renderItem={renderCommentItem}
               keyExtractor={item => item.id}
             />
-          </View>
+          </LinearGradient>
         </View>
       </Modal>
-    </SafeAreaView>
+    </LinearGradient>
   );
 };
