@@ -1,7 +1,7 @@
 import {PermissionsAndroid} from 'react-native';
 import {ShowError} from './ShowMessages';
 
-export const getPermissions = async () => {
+export const GetPermissions = async () => {
   try {
     const granted = await PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,

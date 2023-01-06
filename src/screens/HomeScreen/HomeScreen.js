@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ApiUrl} from '../../utils/ApiUrl';
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -14,7 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../../Colors';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {NetInfoBage} from '../../components/NetInfoBage';
-import {readJson, writeJson} from '../../utils/jsonEditor';
+import {ReadJson, WriteJson} from '../../utils/JsonEditor';
 import {ShowErrorOnPress} from '../../utils/ShowMessages';
 
 export const HomeScreen = ({route}) => {
@@ -33,10 +34,10 @@ export const HomeScreen = ({route}) => {
   const fetchPosts = () => {
     setPostsLoading(true);
     axios
-      .get('https://jsonplaceholder.typicode.com/posts')
+      .get(`${ApiUrl}posts`)
       .then(res => {
         setPosts(res.data);
-        writeJson(JSON.stringify(res.data));
+        WriteJson(JSON.stringify(res.data));
       })
       .catch(e => {
         ShowErrorOnPress(fetchPosts);
@@ -49,7 +50,7 @@ export const HomeScreen = ({route}) => {
   const fetchComments = () => {
     setCommentsLoading(true);
     axios
-      .get('https://jsonplaceholder.typicode.com/comments?postId=' + commentsId)
+      .get(`${ApiUrl}comments`, {params: {postId: commentsId}})
       .then(res => {
         setComments(res.data);
       })
@@ -92,7 +93,7 @@ export const HomeScreen = ({route}) => {
     if (netInfo.isConnected) {
       setIsNotInternet(false);
     } else {
-      readJson({setPosts, isNotInternet});
+      ReadJson({setPosts, isNotInternet});
     }
   }, [netInfo.isConnected]);
 

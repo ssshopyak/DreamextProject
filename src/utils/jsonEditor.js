@@ -1,10 +1,10 @@
 import {ShowError} from './ShowMessages';
-import {getPermissions} from '../utils/getPermissions';
+import {GetPermissions} from './GetPermissions';
 var RNFS = require('react-native-fs');
 
 const path = RNFS.DocumentDirectoryPath + '/postsData.json';
-export const writeJson = async postsData => {
-  const granted = await getPermissions();
+export const WriteJson = async postsData => {
+  const granted = await GetPermissions();
   if (granted) {
     RNFS.writeFile(path, postsData, 'utf8')
       .then(() => {
@@ -16,8 +16,8 @@ export const writeJson = async postsData => {
   }
 };
 
-export const readJson = async ({setPosts, isNotInternet}) => {
-  const granted = await getPermissions();
+export const ReadJson = async ({setPosts, isNotInternet}) => {
+  const granted = await GetPermissions();
   if (granted && isNotInternet) {
     RNFS.readFile(path, 'utf8')
       .then(res => {
