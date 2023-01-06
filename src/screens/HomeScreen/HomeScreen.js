@@ -48,7 +48,7 @@ export const HomeScreen = ({route}) => {
 
   const readJson = async () => {
     const granted = await getPermissions();
-    if (granted) {
+    if (granted && isNotInternet) {
       RNFS.readFile(path, 'utf8')
         .then(res => {
           const postsData = JSON.parse(res);
