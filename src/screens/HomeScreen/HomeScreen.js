@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -16,11 +15,7 @@ import {Colors} from '../Colors';
 import Snackbar from 'react-native-snackbar';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {NetInfoBage} from '../../components/netInfoBage';
-import {toShowError} from '../../components/errorSnackBar';
-import {getPermissions} from '../../components/getPermissions';
-var RNFS = require('react-native-fs');
-
-const path = RNFS.DocumentDirectoryPath + '/postsData.json';
+import {readJson, writeJson} from '../../utils/jsonEditor';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});
@@ -32,33 +27,6 @@ export const HomeScreen = ({route}) => {
 
   const {toAuthorize} = route.params;
   const netInfo = useNetInfo();
-
-  const writeToJson = async postsData => {
-    const granted = await getPermissions();
-    if (granted) {
-      RNFS.writeFile(path, postsData, 'utf8')
-        .then(() => {
-          console.log('FILE WRITTEN!');
-        })
-        .catch(() => {
-          toShowError('Filed to write file');
-        });
-    }
-  };
-
-  const readJson = async () => {
-    const granted = await getPermissions();
-    if (granted && isNotInternet) {
-      RNFS.readFile(path, 'utf8')
-        .then(res => {
-          const postsData = JSON.parse(res);
-          setPosts(postsData);
-        })
-        .catch(() => {
-          toShowError('No saved posts');
-        });
-    }
-  };
 
   const toShowFetchPostError = () => {
     Snackbar.show({
@@ -94,7 +62,7 @@ export const HomeScreen = ({route}) => {
       .get('https://jsonplaceholder.typicode.com/posts')
       .then(res => {
         setPosts(res.data);
-        writeToJson(JSON.stringify(res.data));
+        writeJson(JSON.stringify(res.data));
       })
       .catch(e => {
         toShowFetchPostError();
@@ -148,8 +116,9 @@ export const HomeScreen = ({route}) => {
     fetchPosts();
     if (netInfo.isConnected) {
       setisNotInterner(false);
+      readJson({setPosts, isNotInternet});
     } else {
-      readJson();
+      readJson({setPosts, isNotInternet});
     }
   }, [netInfo.isConnected]);
 

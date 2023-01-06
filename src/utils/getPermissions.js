@@ -1,5 +1,5 @@
 import {PermissionsAndroid} from 'react-native';
-import {toShowError} from './errorSnackBar';
+import {toShowError} from '../components/errorSnackBar';
 
 export const getPermissions = async () => {
   try {
