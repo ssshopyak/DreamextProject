@@ -17,6 +17,7 @@ import Snackbar from 'react-native-snackbar';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {NetInfoBage} from '../../components/netInfoBage';
 import {toShowError} from '../../components/errorSnackBar';
+import {getPermissions} from '../../components/getPermissions';
 var RNFS = require('react-native-fs');
 
 const path = RNFS.DocumentDirectoryPath + '/postsData.json';
@@ -32,25 +33,31 @@ export const HomeScreen = ({route}) => {
   const {toAuthorize} = route.params;
   const netInfo = useNetInfo();
 
-  const writeToJson = postsData => {
-    RNFS.writeFile(path, postsData, 'utf8')
-      .then(() => {
-        console.log('FILE WRITTEN!');
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+  const writeToJson = async postsData => {
+    const granted = await getPermissions();
+    if (granted) {
+      RNFS.writeFile(path, postsData, 'utf8')
+        .then(() => {
+          console.log('FILE WRITTEN!');
+        })
+        .catch(() => {
+          toShowError('Filed to write file');
+        });
+    }
   };
 
-  const readJson = () => {
-    RNFS.readFile(path, 'utf8')
-      .then(res => {
-        const postsData = JSON.parse(res);
-        console.log(postsData);
-      })
-      .catch(() => {
-        toShowError('No saved posts');
-      });
+  const readJson = async () => {
+    const granted = await getPermissions();
+    if (granted) {
+      RNFS.readFile(path, 'utf8')
+        .then(res => {
+          const postsData = JSON.parse(res);
+          setPosts(postsData);
+        })
+        .catch(() => {
+          toShowError('No saved posts');
+        });
+    }
   };
 
   const toShowFetchPostError = () => {
