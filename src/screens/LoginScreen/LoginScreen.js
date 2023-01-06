@@ -8,7 +8,7 @@ import {NetInfoBage} from '../../components/NetInfoBage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../../Colors';
-import {ShowError} from '../../utils/ShowMessages';
+import {ShowError} from '../../utils/showMessages';
 
 export const LoginScreen = ({toAuthorize}) => {
   const [email, setEmail] = useState('');

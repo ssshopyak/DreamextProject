@@ -1,4 +1,4 @@
-import {ShowError} from './ShowMessages';
+import {ShowError} from './showMessages';
 import {GetPermissions} from './GetPermissions';
 var RNFS = require('react-native-fs');
 
