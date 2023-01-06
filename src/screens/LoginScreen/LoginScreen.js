@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {View, TextInput, Text} from 'react-native';
 import {styles} from './style';
-import {Button} from '../../components/button';
+import {Button} from '../../components/Button';
 import {authData} from './data';
 import isEmail from 'validator/lib/isEmail';
-import {NetInfoBage} from '../../components/netInfoBage';
+import {NetInfoBage} from '../../components/NetInfoBage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import LinearGradient from 'react-native-linear-gradient';
-import {Colors} from '../Colors';
-import {toShowError} from '../../components/errorSnackBar';
+import {Colors} from '../../Colors';
+import {ShowError} from '../../utils/ShowMessages';
 
 export const LoginScreen = ({toAuthorize}) => {
   const [email, setEmail] = useState('');
@@ -19,14 +19,14 @@ export const LoginScreen = ({toAuthorize}) => {
   const netInfo = useNetInfo();
 
   const toValidateAuth = () => {
-    authData.map(e => {
+    authData.map(el => {
       const isValidated =
-        e.email === email && isEmail(email) && e.password === password;
+        el.email === email && isEmail(email) && el.password === password;
 
       if (isValidated) {
         toAuthorize();
       } else {
-        toShowError('wrong email or password');
+        ShowError('wrong email or password');
         setIsWrongAuthData(true);
       }
     });

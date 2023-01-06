@@ -11,11 +11,11 @@ import {
 import {styles} from './style';
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
-import {Colors} from '../Colors';
-import Snackbar from 'react-native-snackbar';
+import {Colors} from '../../Colors';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {NetInfoBage} from '../../components/netInfoBage';
+import {NetInfoBage} from '../../components/NetInfoBage';
 import {readJson, writeJson} from '../../utils/jsonEditor';
+import {ShowErrorOnPress} from '../../utils/ShowMessages';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});
@@ -23,38 +23,12 @@ export const HomeScreen = ({route}) => {
   const [comments, setComments] = useState({});
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isNotInternet, setisNotInterner] = useState(true);
+  const [isNotInternet, setIsNotInternet] = useState(true);
 
   const {toAuthorize} = route.params;
   const netInfo = useNetInfo();
 
-  const toShowFetchPostError = () => {
-    Snackbar.show({
-      text: 'An error occurred',
-      duration: Snackbar.LENGTH_INDEFINITE,
-      action: {
-        text: 'Repeat the request',
-        textColor: 'green',
-        onPress: () => {
-          fetchPosts();
-        },
-      },
-    });
-  };
-
-  const toShowFetchCommentsErrorById = id => {
-    Snackbar.show({
-      text: 'An error occurred',
-      duration: Snackbar.LENGTH_INDEFINITE,
-      action: {
-        text: 'Repeat the request',
-        textColor: 'green',
-        onPress: () => {
-          fetchCommentsById(id);
-        },
-      },
-    });
-  };
+  let commentsId = 0;
 
   const fetchPosts = () => {
     setPostsLoading(true);
@@ -65,23 +39,23 @@ export const HomeScreen = ({route}) => {
         writeJson(JSON.stringify(res.data));
       })
       .catch(e => {
-        toShowFetchPostError();
+        ShowErrorOnPress(fetchPosts);
       })
       .finally(() => {
         setPostsLoading(false);
       });
   };
 
-  const fetchCommentsById = id => {
+  const fetchComments = () => {
     setCommentsLoading(true);
     axios
-      .get('https://jsonplaceholder.typicode.com/comments?postId=' + id)
+      .get('https://jsonplaceholder.typicode.com/comments?postId=' + commentsId)
       .then(res => {
         setComments(res.data);
       })
       .catch(() => {
         setModalVisible(false);
-        toShowFetchCommentsErrorById(id);
+        ShowErrorOnPress(fetchComments);
       })
       .finally(() => {
         setCommentsLoading(false);
@@ -89,8 +63,9 @@ export const HomeScreen = ({route}) => {
   };
 
   const renderModal = id => {
+    commentsId = id;
     setModalVisible(true);
-    fetchCommentsById(id);
+    fetchComments();
   };
 
   const renderPostItem = ({item}) => (
@@ -115,7 +90,7 @@ export const HomeScreen = ({route}) => {
   useEffect(() => {
     fetchPosts();
     if (netInfo.isConnected) {
-      setisNotInterner(false);
+      setIsNotInternet(false);
     } else {
       readJson({setPosts, isNotInternet});
     }

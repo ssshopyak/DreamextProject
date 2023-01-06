@@ -1,4 +1,4 @@
-import {toShowError} from '../components/errorSnackBar';
+import {ShowError} from './ShowMessages';
 import {getPermissions} from '../utils/getPermissions';
 var RNFS = require('react-native-fs');
 
@@ -11,7 +11,7 @@ export const writeJson = async postsData => {
         console.log('FILE WRITTEN!');
       })
       .catch(() => {
-        toShowError('Filed to write file');
+        ShowError('Filed to write file');
       });
   }
 };
@@ -25,7 +25,7 @@ export const readJson = async ({setPosts, isNotInternet}) => {
         setPosts(postsData);
       })
       .catch(() => {
-        toShowError('No saved posts');
+        ShowError('No saved posts');
       });
   }
 };

@@ -1,5 +1,5 @@
 import {PermissionsAndroid} from 'react-native';
-import {toShowError} from '../components/errorSnackBar';
+import {ShowError} from './ShowMessages';
 
 export const getPermissions = async () => {
   try {
@@ -15,7 +15,7 @@ export const getPermissions = async () => {
     if (isGrantedPermisions) {
       return true;
     } else {
-      toShowError('permission denied');
+      ShowError('permission denied');
       return false;
     }
   } catch (err) {
