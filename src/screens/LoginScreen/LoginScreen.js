@@ -4,11 +4,11 @@ import {styles} from './style';
 import {Button} from '../../components/button';
 import {authData} from './data';
 import isEmail from 'validator/lib/isEmail';
-import Snackbar from 'react-native-snackbar';
 import {NetInfoBage} from '../../components/netInfoBage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../Colors';
+import {toShowError} from '../../components/errorSnackBar';
 
 export const LoginScreen = ({toAuthorize}) => {
   const [email, setEmail] = useState('');
@@ -18,14 +18,6 @@ export const LoginScreen = ({toAuthorize}) => {
   const [isNotInternet, setisNotInterner] = useState(true);
   const netInfo = useNetInfo();
 
-  const toShowAuthError = title => {
-    Snackbar.show({
-      text: title,
-      duration: Snackbar.LENGTH_LONG,
-      textColor: 'rgba(227, 50, 50,0.5)',
-    });
-  };
-
   const toValidateAuth = () => {
     authData.map(e => {
       const isValidated =
@@ -34,7 +26,7 @@ export const LoginScreen = ({toAuthorize}) => {
       if (isValidated) {
         toAuthorize();
       } else {
-        toShowAuthError('wrong email or password');
+        toShowError('wrong email or password');
         setIsWrongAuthData(true);
       }
     });

@@ -16,6 +16,10 @@ import {Colors} from '../Colors';
 import Snackbar from 'react-native-snackbar';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {NetInfoBage} from '../../components/netInfoBage';
+import {toShowError} from '../../components/errorSnackBar';
+var RNFS = require('react-native-fs');
+
+const path = RNFS.DocumentDirectoryPath + '/postsData.json';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});
@@ -27,6 +31,27 @@ export const HomeScreen = ({route}) => {
 
   const {toAuthorize} = route.params;
   const netInfo = useNetInfo();
+
+  const writeToJson = postsData => {
+    RNFS.writeFile(path, postsData, 'utf8')
+      .then(() => {
+        console.log('FILE WRITTEN!');
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+
+  const readJson = () => {
+    RNFS.readFile(path, 'utf8')
+      .then(res => {
+        const postsData = JSON.parse(res);
+        console.log(postsData);
+      })
+      .catch(() => {
+        toShowError('No saved posts');
+      });
+  };
 
   const toShowFetchPostError = () => {
     Snackbar.show({
@@ -43,7 +68,6 @@ export const HomeScreen = ({route}) => {
   };
 
   const toShowFetchCommentsErrorById = id => {
-    console.log(4);
     Snackbar.show({
       text: 'An error occurred',
       duration: Snackbar.LENGTH_INDEFINITE,
@@ -63,6 +87,7 @@ export const HomeScreen = ({route}) => {
       .get('https://jsonplaceholder.typicode.com/posts')
       .then(res => {
         setPosts(res.data);
+        writeToJson(JSON.stringify(res.data));
       })
       .catch(e => {
         toShowFetchPostError();
@@ -116,6 +141,8 @@ export const HomeScreen = ({route}) => {
     fetchPosts();
     if (netInfo.isConnected) {
       setisNotInterner(false);
+    } else {
+      readJson();
     }
   }, [netInfo.isConnected]);
 
