@@ -1,5 +1,5 @@
-import {ShowError} from './showMessages';
-import {GetPermissions} from './GetPermissions';
+import {ShowError} from './ShowMessages';
+import {GetPermissions} from './getPermissions';
 var RNFS = require('react-native-fs');
 
 const path = RNFS.DocumentDirectoryPath + '/postsData.json';

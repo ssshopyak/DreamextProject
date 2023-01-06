@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {View, TextInput, Text} from 'react-native';
 import {styles} from './style';
-import {Button} from '../../components/Button';
+import {Button} from '../../components/button';
 import {authData} from './data';
 import isEmail from 'validator/lib/isEmail';
-import {NetInfoBage} from '../../components/NetInfoBage';
+import {NetInfoBage} from '../../components/netInfoBage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../../Colors';
-import {ShowError} from '../../utils/showMessages';
+import {ShowError} from '../../utils/ShowMessages';
 
 export const LoginScreen = ({toAuthorize}) => {
   const [email, setEmail] = useState('');

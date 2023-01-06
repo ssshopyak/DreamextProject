@@ -14,9 +14,9 @@ import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../../Colors';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {NetInfoBage} from '../../components/NetInfoBage';
+import {NetInfoBage} from '../../components/netInfoBage';
 import {ReadJson, WriteJson} from '../../utils/jsonEditor';
-import {ShowErrorOnPress} from '../../utils/showMessages';
+import {ShowErrorOnPress} from '../../utils/ShowMessages';
 
 export const HomeScreen = ({route}) => {
   const [posts, setPosts] = useState({});

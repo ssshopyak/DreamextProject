@@ -1,5 +1,5 @@
 import {PermissionsAndroid} from 'react-native';
-import {ShowError} from './showMessages';
+import {ShowError} from './ShowMessages';
 
 export const GetPermissions = async () => {
   try {
