@@ -116,7 +116,6 @@ export const HomeScreen = ({route}) => {
     fetchPosts();
     if (netInfo.isConnected) {
       setisNotInterner(false);
-      readJson({setPosts, isNotInternet});
     } else {
       readJson({setPosts, isNotInternet});
     }
