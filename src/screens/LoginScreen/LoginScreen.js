@@ -60,6 +60,7 @@ export const LoginScreen = ({toAuthorize}) => {
           />
           <TextInput
             style={isWrongAuthData ? styles.wrongInput : styles.input}
+            secureTextEntry={true}
             onChangeText={setPassword}
             value={password}
             placeholder="Password"
