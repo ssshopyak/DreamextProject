@@ -1,4 +1,10 @@
 import React, {useState} from 'react';
+import home from './assets/icons/home.png';
+import promotions from './assets/icons/promotions.png';
+import barcode from './assets/icons/barcode.png';
+import history from './assets/icons/history.png';
+import profile from './assets/icons/profile.png';
+import {Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {HomeScreen} from './src/screens/HomeScreen/HomeScreen';
@@ -24,11 +30,81 @@ const App = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Promotions" component={PromotionsScreen} />
-        <Tab.Screen name="BarCode" component={BarcodeScreen} />
-        <Tab.Screen name="History" component={HistoryScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <Image
+                source={home}
+                style={{
+                  width: size,
+                  height: size,
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Promotions"
+          component={PromotionsScreen}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <Image
+                source={promotions}
+                style={{
+                  width: size,
+                  height: size,
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Barcode"
+          component={BarcodeScreen}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <Image
+                source={barcode}
+                style={{
+                  width: size,
+                  height: size,
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="History"
+          component={HistoryScreen}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <Image
+                source={history}
+                style={{
+                  width: size,
+                  height: size,
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({focused, color, size}) => (
+              <Image
+                source={profile}
+                style={{
+                  width: size,
+                  height: size,
+                }}
+              />
+            ),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
