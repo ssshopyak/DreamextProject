@@ -1,14 +1,19 @@
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {HomeScreen} from './src/screens/HomeScreen/HomeScreen';
 import {LoginScreen} from './src/screens/LoginScreen/LoginScreen';
-const Stack = createNativeStackNavigator();
+import {PromotionsScreen} from './src/screens/PromotionsScreen/PromotionsScreen';
+import {BarcodeScreen} from './src/screens/BarcodeScreen/BarcodeScreen';
+import {HistoryScreen} from './src/screens/HistoryScreen/HistoryScreen';
+import {ProfileScreen} from './src/screens/ProfileScreen/ProfileScreen';
+const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isNotAuthorized, setIsNotAuthorized] = useState(true);
+  const [isNotAuthorized, setIsNotAuthorized] = useState(true); // to mobx
 
   const toAuthorize = () => {
+    // to mobx
     setIsNotAuthorized(!isNotAuthorized);
   };
 
@@ -18,15 +23,13 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          initialParams={{
-            toAuthorize: toAuthorize,
-          }}
-        />
-      </Stack.Navigator>
+      <Tab.Navigator screenOptions={{headerShown: false}}>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Promotions" component={PromotionsScreen} />
+        <Tab.Screen name="BarCode" component={BarcodeScreen} />
+        <Tab.Screen name="History" component={HistoryScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };

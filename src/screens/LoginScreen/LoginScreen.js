@@ -4,25 +4,20 @@ import {styles} from './style';
 import {Button} from '../../components/button';
 import {authData} from './data';
 import isEmail from 'validator/lib/isEmail';
-import {NetInfoBage} from '../../components/netInfoBage';
-import {useNetInfo} from '@react-native-community/netinfo';
 import LinearGradient from 'react-native-linear-gradient';
-import {Colors} from '../../Colors';
+import {Colors} from '../../utils/Colors';
 import {ShowError} from '../../utils/ShowMessages';
 
 export const LoginScreen = ({toAuthorize}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(''); // useRef
+  const [password, setPassword] = useState(''); // useRef
   const [isNotEmptyAuthData, setIsNotEmptyAuthData] = useState(false);
   const [isWrongAuthData, setIsWrongAuthData] = useState(false);
-  const [isNotInternet, setisNotInterner] = useState(true);
-  const netInfo = useNetInfo();
 
   const toValidateAuth = () => {
     authData.map(el => {
       const isValidated =
         el.email === email && isEmail(email) && el.password === password;
-
       if (isValidated) {
         toAuthorize();
       } else {
@@ -38,14 +33,10 @@ export const LoginScreen = ({toAuthorize}) => {
     } else {
       setIsWrongAuthData(false);
     }
-    if (netInfo.isConnected) {
-      setisNotInterner(false);
-    }
-  }, [email, netInfo.isConnected, password]);
+  }, [email, password]);
 
   return (
     <>
-      {isNotInternet && <NetInfoBage />}
       <LinearGradient
         style={styles.container}
         colors={Colors.BodyLinearGradient}>

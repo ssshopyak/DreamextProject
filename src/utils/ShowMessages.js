@@ -1,4 +1,4 @@
-import Snackbar from 'react-native-snackbar';
+import Snackbar from 'react-native-snackbar'; //change libary
 
 export const ShowError = title => {
   Snackbar.show({
