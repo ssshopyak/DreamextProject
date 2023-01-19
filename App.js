@@ -29,17 +29,23 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {borderTopColor: '#808080', borderTopWidth: 1},
+        }}>
         <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
+            tabBarActiveTintColor: '#DC143C',
             tabBarIcon: ({focused, color, size}) => (
               <Image
                 source={home}
                 style={{
                   width: size,
                   height: size,
+                  tintColor: focused ? '#DC143C' : '#808080',
                 }}
               />
             ),
@@ -49,12 +55,14 @@ const App = () => {
           name="Promotions"
           component={PromotionsScreen}
           options={{
+            tabBarActiveTintColor: '#DC143C',
             tabBarIcon: ({focused, color, size}) => (
               <Image
                 source={promotions}
                 style={{
                   width: size,
                   height: size,
+                  tintColor: focused ? '#DC143C' : '#808080',
                 }}
               />
             ),
@@ -64,12 +72,14 @@ const App = () => {
           name="Barcode"
           component={BarcodeScreen}
           options={{
+            tabBarActiveTintColor: '#DC143C',
             tabBarIcon: ({focused, color, size}) => (
               <Image
                 source={barcode}
                 style={{
                   width: size,
                   height: size,
+                  tintColor: focused ? '#DC143C' : '#808080',
                 }}
               />
             ),
@@ -79,12 +89,14 @@ const App = () => {
           name="History"
           component={HistoryScreen}
           options={{
+            tabBarActiveTintColor: '#DC143C',
             tabBarIcon: ({focused, color, size}) => (
               <Image
                 source={history}
                 style={{
                   width: size,
                   height: size,
+                  tintColor: focused ? '#DC143C' : '#808080',
                 }}
               />
             ),
@@ -94,12 +106,14 @@ const App = () => {
           name="Profile"
           component={ProfileScreen}
           options={{
+            tabBarActiveTintColor: '#DC143C',
             tabBarIcon: ({focused, color, size}) => (
               <Image
                 source={profile}
                 style={{
                   width: size,
                   height: size,
+                  tintColor: focused ? '#DC143C' : '#808080',
                 }}
               />
             ),
