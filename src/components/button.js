@@ -17,7 +17,7 @@ export const Button = ({title, onPress, backgroundColor, color}) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     margin: 5,
-    width: 70,
+    width: '95%',
     height: 35,
     borderRadius: 25,
     justifyContent: 'center',

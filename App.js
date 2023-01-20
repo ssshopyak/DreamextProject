@@ -1,30 +1,41 @@
 import React, {useState} from 'react';
+import {Image} from 'react-native';
+import Auth from './src/store/auth';
+import {observer} from 'mobx-react';
+
 import home from './assets/icons/home.png';
 import promotions from './assets/icons/promotions.png';
 import barcode from './assets/icons/barcode.png';
 import history from './assets/icons/history.png';
 import profile from './assets/icons/profile.png';
-import {Image} from 'react-native';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from './src/screens/HomeScreen/HomeScreen';
 import {LoginScreen} from './src/screens/LoginScreen/LoginScreen';
+import {CodeConfirmScreen} from './src/screens/CodeConfirmScreen/CodeConfirmScreen';
 import {PromotionsScreen} from './src/screens/PromotionsScreen/PromotionsScreen';
 import {BarcodeScreen} from './src/screens/BarcodeScreen/BarcodeScreen';
 import {HistoryScreen} from './src/screens/HistoryScreen/HistoryScreen';
 import {ProfileScreen} from './src/screens/ProfileScreen/ProfileScreen';
+
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const App = () => {
-  const [isNotAuthorized, setIsNotAuthorized] = useState(true); // to mobx
-
-  const toAuthorize = () => {
-    // to mobx
-    setIsNotAuthorized(!isNotAuthorized);
-  };
-
-  if (isNotAuthorized) {
-    return <LoginScreen toAuthorize={toAuthorize} />;
+  if (!Auth.isAuthorizated) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="CodeConfirm" component={CodeConfirmScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
 
   return (
@@ -124,4 +135,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default observer(App);

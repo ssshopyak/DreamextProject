@@ -11,6 +11,7 @@ export const BarcodeComponent = ({value}) => {
       width={500}
       height={150}
       maxWidth={Dimensions.get('window').width / 1.5}
+      textStyle={{color:'#DC143C', fontSize:18,marginTop:20}}
     />
   );
 };

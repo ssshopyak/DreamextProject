@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, TextInput, Text} from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  SafeAreaView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {styles} from './style';
 import {Button} from '../../components/button';
 import {authData} from './data';
@@ -7,68 +13,41 @@ import isEmail from 'validator/lib/isEmail';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../../utils/Colors';
 import {ShowError} from '../../utils/ShowMessages';
+import Auth from '../../store/auth';
+import {observer} from 'mobx-react';
 
-export const LoginScreen = ({toAuthorize}) => {
-  const [email, setEmail] = useState(''); // useRef
-  const [password, setPassword] = useState(''); // useRef
-  const [isNotEmptyAuthData, setIsNotEmptyAuthData] = useState(false);
-  const [isWrongAuthData, setIsWrongAuthData] = useState(false);
+export const LoginScreen = observer(({navigation}) => {
+  const [phone, setPhone] = useState('+380'); // useRef
 
   const toValidateAuth = () => {
-    authData.map(el => {
-      const isValidated =
-        el.email === email && isEmail(email) && el.password === password;
-      if (isValidated) {
-        toAuthorize();
-      } else {
-        ShowError('wrong email or password');
-        setIsWrongAuthData(true);
-      }
-    });
+    navigation.navigate('CodeConfirm');
   };
-
-  useEffect(() => {
-    if (email.length > 0 && password.length > 0) {
-      setIsNotEmptyAuthData(true);
-    } else {
-      setIsWrongAuthData(false);
-    }
-  }, [email, password]);
 
   return (
     <>
-      <LinearGradient
-        style={styles.container}
-        colors={Colors.BodyLinearGradient}>
+      <SafeAreaView style={styles.container}>
         <View>
-          <Text style={styles.logo}>SHEVA</Text>
+          <Text style={styles.logo}>Enter the phone number</Text>
           <TextInput
-            style={isWrongAuthData ? styles.wrongInput : styles.input}
-            onChangeText={setEmail}
-            value={email}
-            placeholder="Email"
-            placeholderTextColor="#fff"
-          />
-          <TextInput
-            style={isWrongAuthData ? styles.wrongInput : styles.input}
-            secureTextEntry={true}
-            onChangeText={setPassword}
-            value={password}
-            placeholder="Password"
-            placeholderTextColor="#fff"
+            style={styles.input}
+            onChangeText={setPhone}
+            value={phone}
           />
         </View>
-        {isNotEmptyAuthData && (
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={50}
+          style={{alignItems: 'center'}}>
+          <Text>Press "Continue" to receive SMS confirmation code</Text>
           <View style={styles.button_box}>
             <Button
-              title="Login"
+              title="Continue"
               onPress={toValidateAuth}
-              backgroundColor={Colors.TitleText}
-              color={'white'}
+              backgroundColor={'#DC143C'}
+              color={'#fff'}
             />
           </View>
-        )}
-      </LinearGradient>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </>
   );
-};
+});
