@@ -20,7 +20,9 @@ export const LoginScreen = observer(({navigation}) => {
   const [phone, setPhone] = useState('+380'); // useRef
 
   const toValidateAuth = () => {
-    navigation.navigate('CodeConfirm');
+    navigation.navigate('CodeConfirm', {
+      phone: phone,
+    });
   };
 
   return (
